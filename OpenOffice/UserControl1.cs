@@ -25,9 +25,10 @@ namespace OpenOffice
             {
                 string tableName = cbTable.SelectedItem.ToString();
                 DataTable dt = dgTable.DataSource as DataTable;
-                Dictionary<string, string> values = new Dictionary<string, string>();
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
+                    Dictionary<string, string> values = new Dictionary<string, string>();
+
                     if (dt.Rows[i].RowState == DataRowState.Modified)
                     {
                         for(int j=1;j<dt.Columns.Count;++j)
@@ -38,8 +39,23 @@ namespace OpenOffice
                         //[0] - id
                         db.Update(tableName, Convert.ToInt32(dt.Rows[i]["ID"]), values);
                     }
+                    if (dt.Rows[i].RowState == DataRowState.Added)
+                    {
+                        for (int j = 1; j < dt.Columns.Count; ++j)
+                        {
+                            //MessageBox.Show(dt.Columns[j].ColumnName +' ' + dt.Rows[i][j].ToString());
+                            values.Add(dt.Columns[j].ColumnName, dt.Rows[i][j].ToString());
+                        }
+                        db.Insert(tableName, values);
+                    }
+                    if (dt.Rows[i].RowState == DataRowState.Deleted)
+                    {
+                        //[0] - id
+                        db.Delete(tableName, Convert.ToInt32(dt.Rows[i]["ID"]));
+
+                    }
                 }
-                MessageBox.Show("Данные были успешно добавлены");
+                MessageBox.Show("Данные были успешно изменены");
             }
                 catch (Exception ex)
             {

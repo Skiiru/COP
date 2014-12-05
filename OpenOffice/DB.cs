@@ -74,7 +74,7 @@ namespace OpenOffice
                     if(k!=columns.Values.Count)
                         query += ',';
                     else
-                        query += ')';
+                        query += ");";
                 }
                 return ExecNonQuery(query);
             }
@@ -108,12 +108,12 @@ namespace OpenOffice
                 foreach (KeyValuePair<string, string> kv in Columns)
                 {
                     k++;
-                    query += kv.Key + "=" + kv.Value;
+                    query += kv.Key + "=" +'\'' + kv.Value + '\'';
                     if (k != Columns.Count)
                         query += ", ";
                     else
                     {
-                        query += "where id=" + id.ToString() + ';';
+                        query += " where id=" + id.ToString() + ';';
                     }
                 }
                 string res = ExecNonQuery(query);
@@ -133,14 +133,14 @@ namespace OpenOffice
             {
                 k++;
                 col+=kv.Key;
-                values += kv.Value;
+                values += '\''+ kv.Value + '\'';
                 if(k<columns.Count)
                 {
                     col += ", ";
                     values += ", ";
                 }
             }
-            string query = "INSERT INTO" + tableName + " columns("+col+" ) values(" + values+ ");";
+            string query = "INSERT INTO " + tableName + " ("+col+" ) values(" + values+ ");";
             return ExecNonQuery(query);
         }
         public string Delete(string tableName, int id)
