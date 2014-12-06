@@ -13,12 +13,22 @@ namespace OpenOffice
     public partial class ecDB: UserControl
     {
         DB db;
+        List<int> forDel;
+        public DataGridView Data
+        {
+            get { return this.dgTable; }
+        }
+
         public ecDB()
         {
             InitializeComponent();
+            forDel = new List<int>();
         }
 
+        #region События
+        #endregion
 
+        #region Кнопки
         private void bUpdate_Click(object sender, EventArgs e)
         {
             try
@@ -27,10 +37,11 @@ namespace OpenOffice
                 DataTable dt = dgTable.DataSource as DataTable;
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    Dictionary<string, string> values = new Dictionary<string, string>();
-
+                   
+                    //int id = Convert.ToInt32(dt.Rows[i]["ID"]);
                     if (dt.Rows[i].RowState == DataRowState.Modified)
                     {
+                        Dictionary<string, string> values = new Dictionary<string, string>();
                         for(int j=1;j<dt.Columns.Count;++j)
                         {
                             //MessageBox.Show(dt.Columns[j].ColumnName +' ' + dt.Rows[i][j].ToString());
@@ -41,6 +52,7 @@ namespace OpenOffice
                     }
                     if (dt.Rows[i].RowState == DataRowState.Added)
                     {
+                        Dictionary<string, string> values = new Dictionary<string, string>();
                         for (int j = 1; j < dt.Columns.Count; ++j)
                         {
                             //MessageBox.Show(dt.Columns[j].ColumnName +' ' + dt.Rows[i][j].ToString());
@@ -48,12 +60,11 @@ namespace OpenOffice
                         }
                         db.Insert(tableName, values);
                     }
-                    if (dt.Rows[i].RowState == DataRowState.Deleted)
+                    foreach(var id in forDel)
                     {
-                        //[0] - id
-                        db.Delete(tableName, Convert.ToInt32(dt.Rows[i]["ID"]));
-
+                        db.Delete(tableName, id);
                     }
+                    forDel.Clear();
                 }
                 MessageBox.Show("Данные были успешно изменены");
             }
@@ -65,6 +76,29 @@ namespace OpenOffice
 
         private void bDelete_Click(object sender, EventArgs e)
         {
+        }
+
+        private void bCreateTable_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string[] rows = tbRows.Text.Split(',');
+                Dictionary<string, string> forTbCreate = new Dictionary<string, string>();
+                for (int i = 0; i < rows.Count(); ++i)
+                {
+                    string[] data = rows[i].Split('-');
+                    //data[0] - имя столбца, data[1] - тип данных
+                    forTbCreate.Add(data[0], data[1]);
+                }
+                string flag = db.CreateTable(tbName.Text, forTbCreate);
+                if (flag != "")
+                    throw new Exception(flag);
+                MessageBox.Show("Таблица создана успешно");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("CreateTabeleErr: " + ex.Message);
+            }
         }
 
         private void bOpenOrCreate_Click(object sender, EventArgs e)
@@ -82,9 +116,7 @@ namespace OpenOffice
                 {
                     ofdDbPath.ShowDialog();
                     db = new DB(@ofdDbPath.FileName);
-                    //MessageBox.Show(ofdDbPath.FileName);
                 }
-
                 cbTable.Items.Clear();
                 try
                 {
@@ -119,6 +151,8 @@ namespace OpenOffice
                 MessageBox.Show(ex.Message);
             }
         }
+        #endregion 
+
 
         private void cbTable_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -138,27 +172,21 @@ namespace OpenOffice
 
         }
 
-        private void bCreateTable_Click(object sender, EventArgs e)
+        private void dgTable_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
             try
             {
-                string[] rows = tbRows.Text.Split(',');
-                Dictionary<string, string> forTbCreate = new Dictionary<string, string>();
-                for (int i = 0; i < rows.Count(); ++i)
-                {
-                    string[] data =rows[i].Split('-');
-                    //data[0] - имя столбца, data[1] - тип данных
-                    forTbCreate.Add(data[0], data[1]);
-                }
-                string flag = db.CreateTable(tbName.Text, forTbCreate);
-                if (flag != "")
-                    throw new Exception(flag);
-                MessageBox.Show("Таблица создана успешно");
+                forDel.Add(Convert.ToInt32(e.Row.Cells["ID"].Value));
             }
             catch (Exception ex)
             {
-                MessageBox.Show("CreateTabeleErr: " + ex.Message);
+                MessageBox.Show(ex.Message);
             }
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

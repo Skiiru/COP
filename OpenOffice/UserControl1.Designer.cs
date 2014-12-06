@@ -37,6 +37,8 @@
             this.sfdDbPath = new System.Windows.Forms.SaveFileDialog();
             this.tbRows = new System.Windows.Forms.TextBox();
             this.tbName = new System.Windows.Forms.TextBox();
+            this.lbColumnsTip = new System.Windows.Forms.Label();
+            this.lbTbName = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgTable)).BeginInit();
             this.SuspendLayout();
             // 
@@ -47,6 +49,7 @@
             this.dgTable.Name = "dgTable";
             this.dgTable.Size = new System.Drawing.Size(555, 213);
             this.dgTable.TabIndex = 0;
+            this.dgTable.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dgTable_UserDeletingRow);
             // 
             // cbTable
             // 
@@ -108,7 +111,6 @@
             this.tbRows.Name = "tbRows";
             this.tbRows.Size = new System.Drawing.Size(527, 20);
             this.tbRows.TabIndex = 7;
-            this.tbRows.Text = "Введите через запятую пары столбец -тип данных без пробелов";
             // 
             // tbName
             // 
@@ -117,10 +119,31 @@
             this.tbName.Size = new System.Drawing.Size(100, 20);
             this.tbName.TabIndex = 8;
             // 
+            // lbColumnsTip
+            // 
+            this.lbColumnsTip.AutoSize = true;
+            this.lbColumnsTip.Location = new System.Drawing.Point(25, 261);
+            this.lbColumnsTip.Name = "lbColumnsTip";
+            this.lbColumnsTip.Size = new System.Drawing.Size(334, 13);
+            this.lbColumnsTip.TabIndex = 9;
+            this.lbColumnsTip.Text = "Введите через запятую пары столбец -тип данных без пробелов";
+            // 
+            // lbTbName
+            // 
+            this.lbTbName.AutoSize = true;
+            this.lbTbName.Location = new System.Drawing.Point(580, 261);
+            this.lbTbName.Name = "lbTbName";
+            this.lbTbName.Size = new System.Drawing.Size(63, 13);
+            this.lbTbName.TabIndex = 10;
+            this.lbTbName.Text = "Table name";
+            this.lbTbName.Click += new System.EventHandler(this.label2_Click);
+            // 
             // ecDB
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lbTbName);
+            this.Controls.Add(this.lbColumnsTip);
             this.Controls.Add(this.tbName);
             this.Controls.Add(this.tbRows);
             this.Controls.Add(this.bUpdate);
@@ -129,7 +152,7 @@
             this.Controls.Add(this.cbTable);
             this.Controls.Add(this.dgTable);
             this.Name = "ecDB";
-            this.Size = new System.Drawing.Size(954, 392);
+            this.Size = new System.Drawing.Size(807, 317);
             ((System.ComponentModel.ISupportInitialize)(this.dgTable)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -147,5 +170,7 @@
         private System.Windows.Forms.SaveFileDialog sfdDbPath;
         private System.Windows.Forms.TextBox tbRows;
         private System.Windows.Forms.TextBox tbName;
+        private System.Windows.Forms.Label lbColumnsTip;
+        private System.Windows.Forms.Label lbTbName;
     }
 }

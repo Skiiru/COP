@@ -28,18 +28,8 @@ namespace OpenOffice
             }
         }
 
-        //private void SaveData(System.Windows.Forms.DataGridView dataGrid, string selectCommand)
-        //{
-        //    using (SQLiteConnection conn = new SQLiteConnection(this.conString))
-        //    {
-        //        conn.Open();
-        //        SQLiteDataAdapter dataAdapter = new SQLiteDataAdapter(selectCommand, this.conString);
-        //        SQLiteCommandBuilder commandBuilder = new SQLiteCommandBuilder(dataAdapter);
-        //        DataTable table = dataGrid.DataSource as DataTable;
-        //        dataAdapter.Update(table);
-        //        table.AcceptChanges();
-        //    }
-        //}
+        public delegate object Query(string query);
+        public event Query ExecutingQuery;
 
         public object GetTableNames()
         {
@@ -61,6 +51,7 @@ namespace OpenOffice
                 return "GetTableNames: "+ ex.Message;
             }
         }
+        #region Обёртки
         public string CreateTable(string name,Dictionary<string,string> columns)
         {
             string query = "create table " + name + " (ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,";
@@ -148,8 +139,12 @@ namespace OpenOffice
             string query = "delete from " + tableName + " where id=" + id.ToString() + ";";
             return ExecNonQuery(query);
         }
+        #endregion
+        #region Селекторный и неселекторный запросы
         public string ExecNonQuery(string query)
         {
+            if(ExecutingQuery!=null)
+                ExecutingQuery(query);
             try
             {
                 SQLiteConnection sql = new SQLiteConnection(this.conString);
@@ -167,6 +162,8 @@ namespace OpenOffice
         }
         public object ExecQuery(string query)
         {
+            if (ExecutingQuery != null)
+                ExecutingQuery(query);
             try
             {
                 SQLiteConnection sqlCon = new SQLiteConnection(this.conString);
@@ -186,5 +183,6 @@ namespace OpenOffice
                 return "ExecQuery: " + e.Message;
             }
         }
+#endregion
     }
 }
