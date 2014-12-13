@@ -59,16 +59,12 @@ using AODL.Document.Styles;namespace OpenOfficeLib
                         cell.Content.Clear();
                         paragraph.TextContent.Add(new SimpleText(spreadsheetDocument, d));
                         cell.Content.Add(paragraph);
-                        table.InsertCellAt(column.Key, k, cell);
+                        table.InsertCellAt(column.Key+2, k+1, cell);
                     }
                 }
-
-
-
-
                 //осталось вставить готовый объект с таблицей в документ и сохранить его
                 spreadsheetDocument.TableCollection.Add(table);
-                spreadsheetDocument.SaveTo(@path);
+                spreadsheetDocument.SaveTo(path);
                 return string.Empty;
             }
             catch (Exception ex)

@@ -14,9 +14,28 @@ namespace OpenOffice
     {
         DB db;
         List<int> forDel;
-        public DataGridView Data
+        public DataGridView DataTable
         {
             get { return this.dgTable; }
+        }
+        public string UpdateBtnText
+        {
+            get { return this.bUpdate.Text; }
+            set { this.bUpdate.Text = value; }
+        }
+        public string OpenOrCreateBtnText
+        {
+            get { return this.bOpenOrCreate.Text; }
+            set { this.bOpenOrCreate.Text = value; }
+        }
+        public string CreateTableBtnText
+        {
+            get { return this.bCreateTable.Text; }
+            set { this.bCreateTable.Text = value; }
+        }
+        public DataTable ConditionResult
+        {
+            get { return this.dgCondition.DataSource as DataTable; }
         }
 
         public ecDB()
@@ -26,6 +45,7 @@ namespace OpenOffice
         }
 
         #region События
+    
         #endregion
 
         #region Кнопки
@@ -161,6 +181,12 @@ namespace OpenOffice
                 dgTable.DataSource = dt;
             else
                 MessageBox.Show("Что-то пошло не так");
+            object colNames = db.GetColumnNames(cbTable.SelectedItem.ToString());
+            if (colNames is List<string>)
+                cbColumnName.DataSource=colNames;
+            else
+                MessageBox.Show("Что-то пошло не так");
+            
         }
 
         private void ofdDbPath_FileOk(object sender, CancelEventArgs e)
@@ -186,6 +212,19 @@ namespace OpenOffice
 
         private void label2_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void tbCondition_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == Convert.ToChar(Keys.Enter))
+            {
+                object dt = db.OpenTable(cbTable.SelectedItem.ToString(), cbColumnName.SelectedValue.ToString()+' '+tbCondition.Text);
+                if (dt is DataTable)
+                    dgCondition.DataSource = dt;
+                else
+                    MessageBox.Show("Что-то пошло не так");
+            }
 
         }
     }

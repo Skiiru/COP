@@ -30,6 +30,7 @@ namespace OpenOffice
 
         public delegate object Query(string query);
         public event Query ExecutingQuery;
+        public event Query ExecutingNonQuery;
 
         public object GetTableNames()
         {
@@ -49,6 +50,26 @@ namespace OpenOffice
             catch (Exception ex)
             {
                 return "GetTableNames: "+ ex.Message;
+            }
+        }
+        public object GetColumnNames(string tableName)
+        {
+            try
+            {
+                string query = "pragma table_info(" + tableName + ");";
+                DataTable table = ExecQuery(query) as DataTable;
+                List<string> tbNames = new List<string>();
+                // Return all table names in the ArrayList
+
+                foreach (DataRow row in table.Rows)
+                {
+                    tbNames.Add(row.ItemArray[1].ToString());
+                }
+                return tbNames;
+            }
+            catch (Exception ex)
+            {
+                return "GetTableNames: " + ex.Message;
             }
         }
         #region Обёртки
@@ -79,6 +100,22 @@ namespace OpenOffice
             try
             {
                 string query = "SELECT * FROM " + Name + ";";
+                object dt = ExecQuery(query);
+                if (dt is DataTable)
+                    return dt as DataTable;
+                else
+                    return dt;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+        public Object OpenTable(string Name, string Condition)
+        {
+            try
+            {
+                string query = "SELECT * FROM " + Name + ' ' + "where " +Condition+ ";";
                 object dt = ExecQuery(query);
                 if (dt is DataTable)
                     return dt as DataTable;
@@ -144,7 +181,7 @@ namespace OpenOffice
         public string ExecNonQuery(string query)
         {
             if(ExecutingQuery!=null)
-                ExecutingQuery(query);
+                ExecutingNonQuery(query);
             try
             {
                 SQLiteConnection sql = new SQLiteConnection(this.conString);

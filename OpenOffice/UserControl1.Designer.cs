@@ -39,7 +39,15 @@
             this.tbName = new System.Windows.Forms.TextBox();
             this.lbColumnsTip = new System.Windows.Forms.Label();
             this.lbTbName = new System.Windows.Forms.Label();
+            this.tbCondition = new System.Windows.Forms.TextBox();
+            this.cbColumnName = new System.Windows.Forms.ComboBox();
+            this.lbCondition = new System.Windows.Forms.Label();
+            this.lbColumn = new System.Windows.Forms.Label();
+            this.dgCondition = new System.Windows.Forms.DataGridView();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dgTable)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgCondition)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgTable
@@ -73,7 +81,7 @@
             // 
             // bCreateTable
             // 
-            this.bCreateTable.Location = new System.Drawing.Point(706, 281);
+            this.bCreateTable.Location = new System.Drawing.Point(140, 317);
             this.bCreateTable.Name = "bCreateTable";
             this.bCreateTable.Size = new System.Drawing.Size(75, 23);
             this.bCreateTable.TabIndex = 3;
@@ -114,7 +122,7 @@
             // 
             // tbName
             // 
-            this.tbName.Location = new System.Drawing.Point(574, 281);
+            this.tbName.Location = new System.Drawing.Point(25, 320);
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(100, 20);
             this.tbName.TabIndex = 8;
@@ -131,17 +139,74 @@
             // lbTbName
             // 
             this.lbTbName.AutoSize = true;
-            this.lbTbName.Location = new System.Drawing.Point(580, 261);
+            this.lbTbName.Location = new System.Drawing.Point(25, 304);
             this.lbTbName.Name = "lbTbName";
             this.lbTbName.Size = new System.Drawing.Size(63, 13);
             this.lbTbName.TabIndex = 10;
             this.lbTbName.Text = "Table name";
             this.lbTbName.Click += new System.EventHandler(this.label2_Click);
             // 
+            // tbCondition
+            // 
+            this.tbCondition.Location = new System.Drawing.Point(4, 69);
+            this.tbCondition.Name = "tbCondition";
+            this.tbCondition.Size = new System.Drawing.Size(100, 20);
+            this.tbCondition.TabIndex = 11;
+            this.tbCondition.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbCondition_KeyPress);
+            // 
+            // cbColumnName
+            // 
+            this.cbColumnName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbColumnName.FormattingEnabled = true;
+            this.cbColumnName.Location = new System.Drawing.Point(3, 29);
+            this.cbColumnName.Name = "cbColumnName";
+            this.cbColumnName.Size = new System.Drawing.Size(121, 21);
+            this.cbColumnName.TabIndex = 12;
+            // 
+            // lbCondition
+            // 
+            this.lbCondition.AutoSize = true;
+            this.lbCondition.Location = new System.Drawing.Point(3, 53);
+            this.lbCondition.Name = "lbCondition";
+            this.lbCondition.Size = new System.Drawing.Size(51, 13);
+            this.lbCondition.TabIndex = 13;
+            this.lbCondition.Text = "Condition";
+            // 
+            // lbColumn
+            // 
+            this.lbColumn.AutoSize = true;
+            this.lbColumn.Location = new System.Drawing.Point(3, 13);
+            this.lbColumn.Name = "lbColumn";
+            this.lbColumn.Size = new System.Drawing.Size(42, 13);
+            this.lbColumn.TabIndex = 14;
+            this.lbColumn.Text = "Column";
+            // 
+            // dgCondition
+            // 
+            this.dgCondition.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgCondition.Location = new System.Drawing.Point(6, 111);
+            this.dgCondition.Name = "dgCondition";
+            this.dgCondition.ReadOnly = true;
+            this.dgCondition.Size = new System.Drawing.Size(267, 216);
+            this.dgCondition.TabIndex = 15;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.cbColumnName);
+            this.panel1.Controls.Add(this.dgCondition);
+            this.panel1.Controls.Add(this.lbColumn);
+            this.panel1.Controls.Add(this.tbCondition);
+            this.panel1.Controls.Add(this.lbCondition);
+            this.panel1.Location = new System.Drawing.Point(732, 4);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(287, 349);
+            this.panel1.TabIndex = 16;
+            // 
             // ecDB
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.lbTbName);
             this.Controls.Add(this.lbColumnsTip);
             this.Controls.Add(this.tbName);
@@ -152,8 +217,11 @@
             this.Controls.Add(this.cbTable);
             this.Controls.Add(this.dgTable);
             this.Name = "ecDB";
-            this.Size = new System.Drawing.Size(807, 317);
+            this.Size = new System.Drawing.Size(1084, 374);
             ((System.ComponentModel.ISupportInitialize)(this.dgTable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgCondition)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -172,5 +240,11 @@
         private System.Windows.Forms.TextBox tbName;
         private System.Windows.Forms.Label lbColumnsTip;
         private System.Windows.Forms.Label lbTbName;
+        private System.Windows.Forms.TextBox tbCondition;
+        private System.Windows.Forms.ComboBox cbColumnName;
+        private System.Windows.Forms.Label lbCondition;
+        private System.Windows.Forms.Label lbColumn;
+        private System.Windows.Forms.DataGridView dgCondition;
+        private System.Windows.Forms.Panel panel1;
     }
 }
