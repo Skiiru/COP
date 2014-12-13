@@ -37,10 +37,6 @@
     <Reference Include="AODL">
       <HintPath>..\OpenOfficeLib\AODL.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite, Version=1.0.94.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=AMD64" />
@@ -95,10 +91,6 @@
     <ProjectReference Include="..\OpenOffice\DB.csproj">
       <Project>{B7CE7948-83D0-461B-888C-85C90A44EF7F}</Project>
       <Name>DB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SharpZipLib\src\ICSharpCode.SharpZLib.csproj">
-      <Project>{0e7413ff-eb9e-4714-acf2-be3a6a7b2ffd}</Project>
-      <Name>ICSharpCode.SharpZLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

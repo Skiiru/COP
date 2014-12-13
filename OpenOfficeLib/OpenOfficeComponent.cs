@@ -34,32 +34,34 @@ using AODL.Document.Styles;namespace OpenOfficeLib
                 //создаем новую таблицу
                 Table table = new Table(spreadsheetDocument, tbName, "tablefirst");
                 //создаем новую ячейку, без дополнительных стилей
-                Cell cell = table.CreateCell("cell001");
-                cell.OfficeValueType = "string";
-                //устанавливаем границы
-                cell.CellStyle.CellProperties.Border = Border.NormalSolid; 
-                //создаем новый параграф
-                Paragraph paragraph = ParagraphBuilder.CreateSpreadsheetParagraph(spreadsheetDocument);
+                //Cell cell = table.CreateCell("cell001");
+                //cell.OfficeValueType = "string"; 
+                ////создаем новый параграф
+                //Paragraph paragraph = ParagraphBuilder.CreateSpreadsheetParagraph(spreadsheetDocument);
 
                 //---------------------------------!!!!!!!!!!!!!!!!!!----------------------------------
                 //добавляем в него - текст
-                paragraph.TextContent.Add(new SimpleText(spreadsheetDocument, tbTitle));
+                //paragraph.TextContent.Add(new SimpleText(spreadsheetDocument, tbTitle));
                 //теперь добавляем созданный параграф в ячейку
-                cell.Content.Add(paragraph);
-                table.InsertCellAt(1, 1, cell);
-
+                //cell.Content.Add(paragraph);
+                //table.InsertCellAt(1, 1, cell);
                 foreach (var column in data)
                 {
-                    int k=1;
+                    int k = 1;
                     foreach (var d in column.Value)
                     {
                         k++;
                         //clear
-                        paragraph.TextContent.Clear();
-                        cell.Content.Clear();
-                        paragraph.TextContent.Add(new SimpleText(spreadsheetDocument, d));
-                        cell.Content.Add(paragraph);
-                        table.InsertCellAt(column.Key+2, k+1, cell);
+                        //paragraph.TextContent.Clear();
+                        //cell.Content.Clear();
+                        Paragraph paragraph1 = ParagraphBuilder.CreateSpreadsheetParagraph(spreadsheetDocument);
+                        Cell cell1 = table.CreateCell("cell001");
+                        cell1.OfficeValueType = "string";
+                        cell1.CellStyle.CellProperties.Border = Border.NormalSolid;
+
+                        paragraph1.TextContent.Add(new SimpleText(spreadsheetDocument, d));
+                        cell1.Content.Add(paragraph1);
+                        table.InsertCellAt(k + 1, column.Key + 1, cell1);
                     }
                 }
                 //осталось вставить готовый объект с таблицей в документ и сохранить его
