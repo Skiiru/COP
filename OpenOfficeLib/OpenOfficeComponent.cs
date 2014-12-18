@@ -24,7 +24,7 @@ using AODL.Document.Styles;namespace OpenOfficeLib
             InitializeComponent();
         }
 
-        public string CreateDocument(string path, string tbName, string tbTitle, Dictionary<int,List<string>> data)
+        public string CreateDocument(string path, string listName, Data tbTitle, Dictionary<int,List<Data>> data)
         {
             try
             {
@@ -32,19 +32,21 @@ using AODL.Document.Styles;namespace OpenOfficeLib
                 SpreadsheetDocument spreadsheetDocument = new SpreadsheetDocument();
                 spreadsheetDocument.New();
                 //создаем новую таблицу
-                Table table = new Table(spreadsheetDocument, tbName, "tablefirst");
+                Table table = new Table(spreadsheetDocument, listName, "tablefirst");
                 //создаем новую ячейку, без дополнительных стилей
-                //Cell cell = table.CreateCell("cell001");
-                //cell.OfficeValueType = "string"; 
-                ////создаем новый параграф
-                //Paragraph paragraph = ParagraphBuilder.CreateSpreadsheetParagraph(spreadsheetDocument);
+                Cell cell = table.CreateCell("cell001");
+                cell.OfficeValueType = "string";
+                cell.CellStyle.CellProperties.Border = tbTitle.border;
+                //создаем новый параграф
+                Paragraph paragraph = ParagraphBuilder.CreateSpreadsheetParagraph(spreadsheetDocument);
 
                 //---------------------------------!!!!!!!!!!!!!!!!!!----------------------------------
                 //добавляем в него - текст
-                //paragraph.TextContent.Add(new SimpleText(spreadsheetDocument, tbTitle));
+                FormatedText ftext = new FormatedText(spreadsheetDocument, tbTitle.style, tbTitle.data);
+                paragraph.TextContent.Add(ftext);
                 //теперь добавляем созданный параграф в ячейку
-                //cell.Content.Add(paragraph);
-                //table.InsertCellAt(1, 1, cell);
+                cell.Content.Add(paragraph);
+                table.InsertCellAt(1, 1, cell);
                 foreach (var column in data)
                 {
                     int k = 1;
@@ -57,9 +59,9 @@ using AODL.Document.Styles;namespace OpenOfficeLib
                         Paragraph paragraph1 = ParagraphBuilder.CreateSpreadsheetParagraph(spreadsheetDocument);
                         Cell cell1 = table.CreateCell("cell001");
                         cell1.OfficeValueType = "string";
-                        cell1.CellStyle.CellProperties.Border = Border.NormalSolid;
-
-                        paragraph1.TextContent.Add(new SimpleText(spreadsheetDocument, d));
+                        cell1.CellStyle.CellProperties.Border = d.border;
+                        ftext = new FormatedText(spreadsheetDocument, d.style, d.data);
+                        paragraph1.TextContent.Add(ftext);
                         cell1.Content.Add(paragraph1);
                         table.InsertCellAt(k + 1, column.Key + 1, cell1);
                     }
@@ -73,6 +75,20 @@ using AODL.Document.Styles;namespace OpenOfficeLib
             {
                 return ex.Message;
             }
+        }
+    }
+    public class Data
+    {
+        public string data;
+        public string border;
+        public string style;
+
+        
+        public Data(string data, string border,string style)
+        {
+            this.data = data;
+            this.border = border;
+            this.style = style;
         }
     }
 }

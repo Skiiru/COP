@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OpenOfficeLib;
+using AODL.Document.Styles;
 
 namespace TestForm
 {
@@ -38,18 +40,20 @@ namespace TestForm
                 {
                     return;
                 }
-                Dictionary<int,List<string>> data = new Dictionary<int,List<string>>();
-                List<string> rows = new List<string>();
+                Dictionary<int,List<Data>> data = new Dictionary<int,List<Data>>();
+                List<Data> rows = new List<Data>();
                 for(int i=0;i<this.ecDB1.ConditionResult.Columns.Count;++i)
                 {
                     for(int j=0;j<this.ecDB1.ConditionResult.Rows.Count;++j)
                     {
-                        rows.Add(this.ecDB1.ConditionResult.Rows[j][i].ToString());
+                        Data d = new Data(this.ecDB1.ConditionResult.Rows[j][i].ToString(), Border.NormalSolid, "");
+                        rows.Add(d);
                     }
-                    data.Add(i,rows.ToList<string>());
+                    data.Add(i,rows);
                     rows.Clear();
                 }
-                this.openOfficeComponent1.CreateDocument(path, this.tbTableName.Text, this.tbTableTitle.Text, data);
+                Data title = new Data(tbTableTitle.Text,"","");
+                this.openOfficeComponent1.CreateDocument(path, this.tbTableName.Text, title, data);
             }
         }
     }

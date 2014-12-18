@@ -45,6 +45,7 @@
             this.lbColumn = new System.Windows.Forms.Label();
             this.dgCondition = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.bDeleteTable = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgCondition)).BeginInit();
             this.panel1.SuspendLayout();
@@ -202,10 +203,21 @@
             this.panel1.Size = new System.Drawing.Size(287, 349);
             this.panel1.TabIndex = 16;
             // 
+            // bDeleteTable
+            // 
+            this.bDeleteTable.Location = new System.Drawing.Point(221, 318);
+            this.bDeleteTable.Name = "bDeleteTable";
+            this.bDeleteTable.Size = new System.Drawing.Size(75, 23);
+            this.bDeleteTable.TabIndex = 17;
+            this.bDeleteTable.Text = "Delete table";
+            this.bDeleteTable.UseVisualStyleBackColor = true;
+            this.bDeleteTable.Click += new System.EventHandler(this.bDeleteTable_Click);
+            // 
             // ecDB
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.bDeleteTable);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lbTbName);
             this.Controls.Add(this.lbColumnsTip);
@@ -246,5 +258,6 @@
         private System.Windows.Forms.Label lbColumn;
         private System.Windows.Forms.DataGridView dgCondition;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button bDeleteTable;
     }
 }

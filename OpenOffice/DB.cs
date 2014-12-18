@@ -10,6 +10,7 @@ using System.Data;
 
 namespace OpenOffice
 {
+    public delegate object Query(string query);
     class DB
     {
         public string conString;
@@ -27,10 +28,8 @@ namespace OpenOffice
                 this.conString = null;
             }
         }
-
-        public delegate object Query(string query);
-        public event Query ExecutingQuery;
-        public event Query ExecutingNonQuery;
+        public Query ExecutingQuery;
+        public Query ExecutingNonQuery;
 
         public object GetTableNames()
         {
@@ -176,9 +175,15 @@ namespace OpenOffice
             string query = "delete from " + tableName + " where id=" + id.ToString() + ";";
             return ExecNonQuery(query);
         }
+        public string DeleteTable(string tableName)
+        {
+            string query = "drop table " + tableName + " ;";
+            return ExecNonQuery(query);
+        }
         #endregion
+
         #region Селекторный и неселекторный запросы
-        public string ExecNonQuery(string query)
+        private string ExecNonQuery(string query)
         {
             if(ExecutingQuery!=null)
                 ExecutingNonQuery(query);
@@ -197,7 +202,7 @@ namespace OpenOffice
                 return "ExecNonQuery: " + e.Message;
             }
         }
-        public object ExecQuery(string query)
+        private object ExecQuery(string query)
         {
             if (ExecutingQuery != null)
                 ExecutingQuery(query);

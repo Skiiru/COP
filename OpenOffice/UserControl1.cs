@@ -45,7 +45,16 @@ namespace OpenOffice
         }
 
         #region События
-    
+        public Query ExecNonQuery
+        {
+            get { return this.db.ExecutingNonQuery; }
+            set { this.db.ExecutingNonQuery = value; }
+        }
+        public Query ExecQuery
+        {
+            get { return this.db.ExecutingQuery; }
+            set { this.db.ExecutingQuery = value; }
+        }
         #endregion
 
         #region Кнопки
@@ -226,6 +235,18 @@ namespace OpenOffice
                     MessageBox.Show("Что-то пошло не так");
             }
 
+        }
+
+        private void bDeleteTable_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.db.DeleteTable(tbName.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
