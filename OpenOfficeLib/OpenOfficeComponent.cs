@@ -47,9 +47,19 @@ using AODL.Document.Styles;namespace OpenOfficeLib
                 //теперь добавляем созданный параграф в ячейку
                 cell.Content.Add(paragraph);
                 table.InsertCellAt(1, 1, cell);
+                string s=string.Empty;
+                //Table table1 = new Table(spreadsheetDocument, listName, "tablefirst");
+                Cell cell2 = table.CreateCell("cell001");
+                cell2.OfficeValueType = "string";
+                cell2.CellStyle.CellProperties.Border = tbTitle.border;
+                cell2.Content.Add(paragraph);
+                table.InsertCellAt(1, 1, cell);
+                table.InsertCellAt(2, 1, cell);
+                table.InsertCellAt(3, 1, cell2);
                 foreach (var column in data)
                 {
-                    int k = 1;
+                    int k = 0;
+                    s+='|';
                     foreach (var d in column.Value)
                     {
                         k++;
@@ -64,12 +74,16 @@ using AODL.Document.Styles;namespace OpenOfficeLib
                         paragraph1.TextContent.Add(ftext);
                         cell1.Content.Add(paragraph1);
                         table.InsertCellAt(k + 1, column.Key + 1, cell1);
+                        //table.InsertCellAt()
+                        s += "(" + (k + 1).ToString() + ',' + (column.Key + 1).ToString() + ')';
                     }
+                    s += Environment.NewLine;
                 }
                 //осталось вставить готовый объект с таблицей в документ и сохранить его
                 spreadsheetDocument.TableCollection.Add(table);
+                //spreadsheetDocument.TableCollection.Add(table1);
                 spreadsheetDocument.SaveTo(path);
-                return string.Empty;
+                return s;
             }
             catch (Exception ex)
             {
